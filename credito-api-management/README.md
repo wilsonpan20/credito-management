@@ -31,7 +31,7 @@ Siga os passos abaixo para colocar a aplicação em execução:
 ### 1. Clonar o Repositório
 
 ```bash
-git clone <URL_DO_SEU_REPOSITORIO>
+git clone git@github.com:wilsonpan20/credito-management.git
 cd credito-api-management
 ```
 
