@@ -1,5 +1,6 @@
 package com.wildev.creditoapimanagement.domain.service.impl;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,17 +20,21 @@ class ConsultaCreditoProducerImplTest {
     @InjectMocks
     private ConsultaCreditoProducerImpl producer;
 
+    @BeforeEach
+    void setUp() {
+        // Injeta o valor da propriedade "topicName" manualmente para o teste
+        ReflectionTestUtils.setField(producer, "topicName", "topico-teste");
+    }
+
     @Test
-    void quandoEnviarMensagem_deveChamarKafkaTemplateSend() {
+    void deveEnviarMensagemParaOTopicoCorreto() {
         // Cenário
-        String topicName = "meu-topico-de-teste";
-        String mensagem = "Olá, Kafka!";
-        ReflectionTestUtils.setField(producer, "topicName", topicName); // Injeta o valor do @Value
+        String mensagem = "Mensagem de teste";
 
         // Ação
         producer.enviar(mensagem);
 
         // Verificação
-        verify(kafkaTemplate).send(topicName, mensagem);
+        verify(kafkaTemplate).send("topico-teste", mensagem);
     }
 }

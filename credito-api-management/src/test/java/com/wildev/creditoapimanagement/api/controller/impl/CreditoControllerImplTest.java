@@ -7,9 +7,9 @@ import com.wildev.creditoapimanagement.mapper.CreditoMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -20,16 +20,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CreditoControllerImpl.class)
+@WebMvcTest (CreditoControllerImpl.class)
 class CreditoControllerImplTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private CreditoService service;
 
-    @MockBean
+    @MockitoBean
     private CreditoMapper mapper;
 
     private Credito credito;
@@ -48,26 +48,24 @@ class CreditoControllerImplTest {
 
     @Test
     void quandoBuscarPorNfse_deveRetornarOk_eListaDeCreditos() throws Exception {
-        // Cenário
+
         when(service.buscarPorNfse("NFSE-456")).thenReturn(List.of(credito));
         when(mapper.toCreditoResponseDto(any(List.class))).thenReturn(List.of(creditoResponseDto));
 
-        // Ação e Verificação
         mockMvc.perform(get("/api/creditos/{numeroNfse}", "NFSE-456")
-                        .contentType(MediaType.APPLICATION_JSON))
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].numeroCredito").value("CRE-123"));
     }
 
     @Test
     void quandoBuscarPorNumeroCredito_deveRetornarOk_eCredito() throws Exception {
-        // Cenário
+
         when(service.buscarPorNumeroCredito("CRE-123")).thenReturn(credito);
         when(mapper.toCreditoResponseDto(any(Credito.class))).thenReturn(creditoResponseDto);
 
-        // Ação e Verificação
         mockMvc.perform(get("/api/creditos/credito/{numeroCredito}", "CRE-123")
-                        .contentType(MediaType.APPLICATION_JSON))
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.numeroNfse").value("NFSE-456"));
     }
