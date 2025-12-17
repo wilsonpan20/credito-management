@@ -1,5 +1,6 @@
 package com.wildev.creditoapimanagement.domain.service.impl;
 
+import com.wildev.creditoapimanagement.domain.exception.CreditoNaoEncontradoException;
 import com.wildev.creditoapimanagement.domain.model.Credito;
 import com.wildev.creditoapimanagement.domain.repository.CreditoRepository;
 import com.wildev.creditoapimanagement.domain.service.CreditoService;
@@ -18,11 +19,11 @@ public class CreditoServiceImpl implements CreditoService {
 
     @Override
     public List<Credito> buscarPorNfse(String numeroNfse) {
-        return repository.findByNumeroNfse(numeroNfse) ;
+        return repository.findByNumeroNfse(numeroNfse);
     }
 
     @Override
     public Credito buscarPorNumeroCredito(String numeroCredito) {
-        return repository.findByNumeroCredito(numeroCredito).orElseThrow(null);
+        return repository.findByNumeroCredito(numeroCredito).orElseThrow(() -> new CreditoNaoEncontradoException(numeroCredito));
     }
 }

@@ -2,7 +2,6 @@ package com.wildev.creditoapimanagement.api.controller.impl;
 
 import com.wildev.creditoapimanagement.api.controller.CreditoController;
 import com.wildev.creditoapimanagement.api.model.dto.response.CreditoResponseDto;
-import com.wildev.creditoapimanagement.domain.model.Credito;
 import com.wildev.creditoapimanagement.domain.service.CreditoService;
 import com.wildev.creditoapimanagement.mapper.CreditoMapper;
 import lombok.RequiredArgsConstructor;
