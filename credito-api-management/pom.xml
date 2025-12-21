@@ -1,238 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<!-- Versão do modelo do Maven -->
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<!-- Spring Boot Parent
-         Gerencia versões de dependências (BOM),
-         plugins e compatibilidade com Java 21 -->
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.0</version>
-		<relativePath/>
-	</parent>
+    <!-- Spring Boot Parent (BOM principal) -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.0.0</version>
+        <relativePath/>
+    </parent>
 
-	<!-- Identificação do projeto -->
-	<groupId>com.wildev</groupId>
-	<artifactId>credito-api-management</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>credito-api-management</name>
-	<description>API de gerenciamento de crédito</description>
+    <groupId>com.wildev</groupId>
+    <artifactId>credito-api-management</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>credito-api-management</name>
+    <description>API de gerenciamento de crédito</description>
 
-	<!-- Propriedades globais -->
-	<properties>
-		<!-- Java LTS -->
-		<java.version>21</java.version>
+    <!-- ============================= -->
+    <!-- PROPERTIES -->
+    <!-- ============================= -->
+    <properties>
+        <!-- Java -->
+        <java.version>21</java.version>
 
-		<!-- Versão explícita do MapStruct -->
-		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-	</properties>
+        <!-- Encoding (evita erro de charset) -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-	<dependencies>
+        <!-- Versions -->
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <testcontainers.version>1.19.8</testcontainers.version>
+    </properties>
 
-		<!-- ============================= -->
-		<!-- 🌐 CAMADA WEB (Adapters Inbound) -->
-		<!-- ============================= -->
+    <!-- ============================= -->
+    <!-- DEPENDENCY MANAGEMENT -->
+    <!-- ============================= -->
+    <dependencyManagement>
+        <dependencies>
 
-		<!-- Spring MVC (Controllers REST, filtros, interceptors) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
-		</dependency>
+            <!-- Testcontainers BOM -->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-		<!-- OpenAPI / Swagger UI
-             Documentação automática da API REST -->
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>3.0.0</version>
-		</dependency>
+        </dependencies>
+    </dependencyManagement>
 
+    <!-- ============================= -->
+    <!-- DEPENDENCIES -->
+    <!-- ============================= -->
+    <dependencies>
 
-		<!-- ============================= -->
-		<!-- 🗄️ CAMADA DE PERSISTÊNCIA -->
-		<!-- ============================= -->
+        <!-- 🌐 WEB -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
 
-		<!-- Spring Data JPA
-             Repositórios, EntityManager, transações -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
+        <!-- 📄 OPENAPI / SWAGGER -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
 
-		<!-- Driver JDBC do PostgreSQL -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+        <!-- 🗄️ JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
 
-		<!-- Flyway Core
-             Versionamento e migração de banco -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-flyway</artifactId>
-		</dependency>
+        <!-- 🐘 POSTGRES -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-		<!-- Flyway específico para PostgreSQL -->
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-database-postgresql</artifactId>
-		</dependency>
+        <!-- 🧬 FLYWAY -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
 
+        <!-- 🔄 MAPSTRUCT -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
 
-		<!-- ============================= -->
-		<!-- 🔄 MAPEAMENTO DTO ↔ ENTIDADE -->
-		<!-- ============================= -->
+        <!-- 🧩 LOMBOK -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
+        </dependency>
 
-		<!-- MapStruct
-             Geração de mappers em tempo de compilação -->
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${org.mapstruct.version}</version>
-		</dependency>
+        <!-- 📩 KAFKA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-kafka</artifactId>
+        </dependency>
 
-		<!-- Integração Lombok + MapStruct -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok-mapstruct-binding</artifactId>
-			<version>0.2.0</version>
-		</dependency>
+        <!-- 🧪 TESTES -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- Lombok
-             Reduz boilerplate (getters, builders, etc.) -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <!-- 🧪 SPRING KAFKA TEST -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
+        <!-- 🧪 TESTCONTAINERS KAFKA -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- ============================= -->
-		<!-- 📩 MENSAGERIA (Adapters Outbound) -->
-		<!-- ============================= -->
+    </dependencies>
 
-		<!-- Spring for Apache Kafka
-             Producer, Consumer, KafkaTemplate, @KafkaListener -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-kafka</artifactId>
-		</dependency>
+    <!-- ============================= -->
+    <!-- BUILD -->
+    <!-- ============================= -->
+    <build>
+        <plugins>
 
+            <!-- COMPILER (MapStruct + Lombok) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
 
-		<!-- ============================= -->
-		<!-- 🧪 TESTES -->
-		<!-- ============================= -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
 
-		<!-- Starter de testes do Spring Boot
-             JUnit 5, Mockito, AssertJ -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
 
-		<!-- Testes de JPA -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
 
-		<!-- Testes de Flyway -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-flyway-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
 
-		<!-- Testes da camada web (MockMvc) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+            <!-- SPRING BOOT -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
 
-		<!-- Integração Spring + Testcontainers -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-testcontainers</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Kafka com Testcontainers
-             Kafka real para testes de integração -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-kafka-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-	</dependencies>
-
-
-	<!-- ============================= -->
-	<!-- 🔧 BUILD / PLUGINS -->
-	<!-- ============================= -->
-	<build>
-		<plugins>
-
-			<!-- Compiler Plugin
-                 Configura annotation processors (MapStruct + Lombok) -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-
-						<!-- Processador do MapStruct -->
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>${org.mapstruct.version}</version>
-						</path>
-
-						<!-- Lombok -->
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
-						</path>
-
-						<!-- Binding Lombok + MapStruct -->
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok-mapstruct-binding</artifactId>
-							<version>0.2.0</version>
-						</path>
-
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-
-			<!-- Spring Boot Plugin
-                 Empacotamento e execução da aplicação -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-
-				<!-- Remove Lombok do jar final -->
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-
-		</plugins>
-	</build>
+        </plugins>
+    </build>
 
 </project>

@@ -1,16 +1,16 @@
-package com.wildev.creditoapimanagement.domain.service.impl;
+package com.wildev.creditoapimanagement.infrastructure.messaging.producer;
 
-import com.wildev.creditoapimanagement.domain.service.ConsultaCreditoProducer;
+import com.wildev.creditoapimanagement.domain.port.out.NotificacaoPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 @Log4j2
-@Service
+@Component
 @RequiredArgsConstructor
-public class ConsultaCreditoProducerImpl implements ConsultaCreditoProducer {
+public class NotificacaoKafkaAdapter implements NotificacaoPort {
 
     @Value("${topic.consulta-credito.name}")
     private String topicName;

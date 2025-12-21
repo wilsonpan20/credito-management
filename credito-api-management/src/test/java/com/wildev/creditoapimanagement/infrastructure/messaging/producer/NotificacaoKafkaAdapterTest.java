@@ -1,4 +1,4 @@
-package com.wildev.creditoapimanagement.domain.service.impl;
+package com.wildev.creditoapimanagement.infrastructure.messaging.producer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,13 +12,13 @@ import org.springframework.test.util.ReflectionTestUtils;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class ConsultaCreditoProducerImplTest {
+class NotificacaoKafkaAdapterTest {
 
     @Mock
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @InjectMocks
-    private ConsultaCreditoProducerImpl producer;
+    private NotificacaoKafkaAdapter producer;
 
     @BeforeEach
     void setUp() {
