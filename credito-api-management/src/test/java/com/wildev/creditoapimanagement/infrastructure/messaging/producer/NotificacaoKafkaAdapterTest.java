@@ -11,7 +11,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith (MockitoExtension.class)
 class NotificacaoKafkaAdapterTest {
 
     @Mock
@@ -22,19 +22,16 @@ class NotificacaoKafkaAdapterTest {
 
     @BeforeEach
     void setUp() {
-        // Injeta o valor da propriedade "topicName" manualmente para o teste
         ReflectionTestUtils.setField(producer, "topicName", "topico-teste");
     }
 
     @Test
     void deveEnviarMensagemParaOTopicoCorreto() {
-        // Cenário
+
         String mensagem = "Mensagem de teste";
 
-        // Ação
         producer.enviar(mensagem);
 
-        // Verificação
         verify(kafkaTemplate).send("topico-teste", mensagem);
     }
 }

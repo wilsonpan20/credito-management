@@ -85,7 +85,43 @@ Para executar os testes unitários e de integração:
 mvn test
 ```
 
-## 🔍 Monitoramento (Kafka UI)
+## �️ Frontend (Angular)
+
+O frontend está localizado na pasta `front-credito-management` e foi adicionado como serviço `front` no `docker-compose.yml` (é buildado a partir da pasta e servido via nginx dentro do container).
+
+**Executar via Docker Compose (recomendado):**
+
+```bash
+# no diretório 'credito-api-management'
+docker compose up --build -d
+```
+
+**Executar somente o front (opções):**
+
+```bash
+docker compose build front
+docker compose up -d front
+```
+
+**Executar localmente para desenvolvimento:**
+
+```bash
+cd ../front-credito-management
+npm install
+npm start
+# app disponível em http://localhost:4200 (ng serve)
+```
+
+A aplicação ficará disponível em **http://localhost:4200** (o container serve na porta 80, mapeada para 4200 no host).
+
+**Observações:**
+
+* O `Dockerfile` do frontend está em `front-credito-management/Dockerfile` e há um `.dockerignore` para evitar copiar `node_modules`/`dist`.
+* Se o frontend consumir a API local (`http://localhost:8080`), verifique CORS no backend ou adicione um proxy (ex: `proxy.conf.json`) no Angular. Se preferir, posso adicionar um proxy/nginx no `docker-compose` para evitar problemas de CORS.
+
+---
+
+## �🔍 Monitoramento (Kafka UI)
 
 Para visualizar os tópicos e as mensagens enviadas para o Kafka, acesse a interface do Kafka UI:
 

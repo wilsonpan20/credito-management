@@ -48,3 +48,14 @@ services:
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-broker:29092
+
+  front:
+    build:
+      context: ../front-credito-management
+      dockerfile: Dockerfile
+    container_name: front-credito
+    restart: always
+    ports:
+      - "4200:80"
+    depends_on:
+      - kafka
